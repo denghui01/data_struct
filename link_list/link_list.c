@@ -3,23 +3,31 @@
 #include <assert.h>
 #include "link_list.h"
 
-ptr_head make_empty()
+ptr_list make_empty()
 {
-    ptr_head head = malloc(sizeof(link_node));
-    head->next = NULL;
-    return head;
+    ptr_list list = malloc(sizeof(link_list));
+    list->first = NULL;
+    return list;
 }
 
-int is_empty(ptr_head head)
+ptr_node make_node(data_t x)
 {
-    assert(head);    
-    return head->next == NULL;
+    ptr_node node = malloc(sizeof(link_node));
+    node->d = x;
+    node->next = NULL;
+    return node;
 }
 
-// Don't use list head as input, instead, use the first node
-void print_list(ptr_node list)
+int is_empty(ptr_list list)
 {
-    ptr_node node = list;
+    assert(list);    
+    return list->first == NULL;
+}
+
+// Don't use list head as input, instead, use the head node
+void print_list(ptr_node head)
+{
+    ptr_node node = head;
     while(node)
     {
         printf("%d->", node->d);
@@ -28,82 +36,114 @@ void print_list(ptr_node list)
     printf("NULL\n");
 }
 
-void delete_list(ptr_head head)
+// delete whole list
+void delete_list(ptr_list list)
 {
-    assert(head);
-    ptr_node node = head->next;
+    assert(list);
+    ptr_node node = list->first;
     while(node)
     {
         ptr_node t = node->next;
         free(node);
         node = t;
     }
-    free(head);
+    list->first = NULL; // empty it again!
 }
 
-ptr_node find_node(data_t x, ptr_head head)
+ptr_node find_node(data_t x, ptr_list list)
 {
-    assert(head);    
-    ptr_node node = head->next;
-    while(node)
+    assert(list);
+    ptr_node node = list->first;
+    while(node && node->d != x)
     {
-        if(node->d == x)
-        {
-            break;
-        }
         node = node->next;
     }
     return node;
 }
 
-int delete_node(ptr_node target, ptr_head head)
+// Since the target may be the first node, the list has to be input
+int delete_node(ptr_node target, ptr_list list)
 {
-    if(!(head && target)) return EXIT_FAILURE;
-    ptr_node node = head->next;
-    ptr_node prev = head;
-    while(node)
+    if(target == NULL || list == NULL) return EXIT_FAILURE;
+    if(target == list->first)
     {
-        if(node == target)
+        list->first = list->first->next;
+    }
+    else
+    {
+        ptr_node node = list->first->next;
+        ptr_node prev = list->first;
+        while(node && node != target)
+        {
+            prev = node;
+            node = node->next;
+        }
+        if(node)
         {
             prev->next = node->next;
-            break;
-        }
-        node = node->next;
-        prev = prev->next;
-    }
+        }        
+    }    
     free(target);
     return EXIT_SUCCESS;
 }
 
-// Insert AFTER specific position
-void insert_node(ptr_node target, ptr_node pos)
+ptr_node list_tail(ptr_list list)
 {
-    assert(target);
-    assert(pos);
-    target->next = pos->next;
-    pos->next = target;
-}
+    assert(list);
+    if(list->first == NULL) return NULL; // Empty
 
-void append_node(data_t x, ptr_head head)
-{
-    assert(head);    
-    ptr_node node = malloc(sizeof(link_node));
-    node->d = x;
-    node->next = NULL;
-    ptr_node tail = tail_list(head);
-    tail->next = node;
-}
-
-ptr_node tail_list(ptr_head head)
-{
-    assert(head);
-    ptr_node node = head;
+    ptr_node node = list->first;
     while(node->next)
     {
         node = node->next;
     }
     return node;
 }
+
+void append_node(ptr_node node, ptr_list list)
+{
+    assert(list);
+    if(is_empty(list))
+    {
+        list->first = node;
+    }    
+    else
+    {
+        ptr_node tail = list_tail(list);
+        if(tail)
+        {
+            tail->next = node;
+        }
+    }    
+}
+
+// Insert BEFORE specific position
+void insert_before(ptr_node target, ptr_node pos, ptr_list list)
+{
+    assert(target);
+    assert(pos);
+    assert(list);
+    if(list->first == pos) // Insert to the first node
+    {
+        target->next = pos;
+        list->first = target;
+        return;
+    }
+    else
+    {
+        ptr_node prev = list->first;
+        while(prev->next && prev->next != pos)
+        {
+            prev = prev->next;
+        }
+        if(prev->next != NULL)
+        {
+            target->next = pos;
+            prev->next = target;
+        }
+    }    
+}
+
 /*
 void reverse1(ptr_head head)
 {
@@ -132,10 +172,10 @@ void reverse1(ptr_head head)
 
 // Leetcode questions
 // 876. Middle of the Linked List
-ptr_node middleNode(ptr_head head)
+ptr_node middle_node(ptr_list list)
 {
-    assert(head);
-    ptr_node one_step = head->next;
+    assert(list);
+    ptr_node one_step = list->first;
     if(one_step == NULL) return one_step; // Empty
     ptr_node two_step = one_step->next;
     while(two_step)

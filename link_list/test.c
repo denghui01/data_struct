@@ -4,35 +4,53 @@
 
 int main()
 {
-    ptr_head list = make_empty();
+    ptr_list list = make_empty();
+    
+    // Test:
+    // append_node, print_list
     for (int i = 0; i < 10; ++i)
     {
-        append_node(i, list);
+        ptr_node node = make_node(i);
+        append_node(node, list);
     }
-    print_list(list->next);
+    print_list(list->first);
 
-    // Test insert_node and find_node, delete_list
-    ptr_node node = find_node(5, list);
-    link_node a;
-    a.d = 11;
-    insert_node(&a, node);
-    print_list(list->next);
+    // Test:
+    // find_node, insert_before
+    // delete_node, delete_list
+    ptr_node node = find_node(0, list);
+    ptr_node a = make_node(11);
+    if(node)
+    {
+        insert_before(a, node, list);
+    }
+    print_list(list->first);
+
+    node = find_node(10, list);
+    if(node == NULL)
+    {
+        printf("Can't find 10 in the list\n");
+    }
+    delete_node(find_node(1, list), list);
+    print_list(list->first);
     delete_list(list);
 
     // Test leetcode: middleNode
-    list = make_empty();
-    for (int i = 0; i < 1; ++i)
+    for (int i = 0; i < 3; ++i)
     {
-        append_node(i, list);
-    }    
-    print_list(middleNode(list));
+        ptr_node node = make_node(i);   
+        append_node(node, list); // [0,1,2]
+    }
+    print_list(list->first);    
+    print_list(middle_node(list)); // [1,2]
 
     for (int i = 1; i < 4; ++i)
     {
-        append_node(i, list);
+        ptr_node node = make_node(i);   
+        append_node(node, list); // [0,1,2,1,2,3]
     }
-    print_list(list->next);
-    print_list(middleNode(list));
+    print_list(list->first);
+    print_list(middle_node(list)); //[1,2,3]
     
     return EXIT_SUCCESS;
 }
