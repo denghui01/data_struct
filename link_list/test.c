@@ -45,28 +45,35 @@ int main()
     delete_node(find_node(2, find_node(2, list->first)->next), list);
     print_list(list->first);
 
-    // Test reverse
+
+    // 206. Reverse Linked List
     print_list(reverse(list)->first);
 
     delete_list(list);
 
-    // Test leetcode: middleNode
-    for (int i = 0; i < 3; ++i)
+    // 876. Middle of the Linked List
+    int i = 1;
+    while (i < 4)
     {
         ptr_node node = make_node(i);   
-        append_node(node, list); // [0,1,2]
+        append_node(node, list); // [1,2,3]
+        ++i;
     }
     print_list(list->first);    
-    print_list(middle_node(list)); // [1,2]
+    print_list(middle_node(list->first)); // [2,3]
 
-    for (int i = 1; i < 4; ++i)
+    while(i < 9)
     {
         ptr_node node = make_node(i);   
-        append_node(node, list); // [0,1,2,1,2,3]
+        append_node(node, list); // [1,2,3,4,5,6,7,8]
+        ++i;
     }
     print_list(list->first);
-    print_list(middle_node(list)); //[1,2,3]
+    print_list(middle_node(list->first)); //[5,6,7,8]
     
+    ////92. Reverse Linked List II
+    print_list(reverse_between(2, 4, list)->first);
+
     delete_list(list);
     free(list);
 

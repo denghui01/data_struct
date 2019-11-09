@@ -142,6 +142,8 @@ void insert_before(ptr_node target, ptr_node pos, ptr_list list)
     }    
 }
 
+// Leetcode questions
+// 206. Reverse Linked List
 ptr_list reverse(ptr_list list)
 {
     assert(list);
@@ -166,7 +168,7 @@ ptr_node middle_node(ptr_node head)
 {
     ptr_node one_step = head;
     if(one_step == NULL) return NULL; // Empty
-    
+
     ptr_node two_step = one_step->next;
     while(two_step)
     {
@@ -178,5 +180,47 @@ ptr_node middle_node(ptr_node head)
     return one_step; // Return only the real node, not the head of list
 }
 
+//92. Reverse Linked List II
+ptr_list reverse_between(int m, int n, ptr_list list)
+{
+    assert(list);
+    ptr_node head, new_head, temp, node1, node2, node3, node4;
+    head = list->first;
+    new_head = NULL;
 
+    while(head)
+    {
+        if(m != 0)
+        {
+            --m;
+            --n;
+            node1 = head;
+            node2 = head->next;
+            head = head->next;
+        }
+        else // start to reverse
+        {
+            if(n != 0)
+            {
+                --n;
+                node3 = head;
+                node4 = head->next;
+                temp = head;
+                head = head->next;
+                temp->next = new_head;
+                new_head = temp;
+
+            }
+            else // finished
+            {
+                node2->next = node4;
+                node1->next = node3;
+                new_head = head;
+                head = head->next;
+            }            
+        }        
+    }
+    list->first = new_head;
+    return list;
+}
 

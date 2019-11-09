@@ -11,7 +11,7 @@ typedef struct link_list
 }link_list, *ptr_list;
 
 // All the APIs that might change the content of list will use list as input
-// others use head node as input
+// others use head node as input to let these functions be able to cascadely called
 ptr_list make_empty();
 ptr_node make_node(data_t x);
 int is_empty(ptr_node head);
@@ -23,7 +23,8 @@ int delete_node(ptr_node target, ptr_list list);
 void append_node(ptr_node node, ptr_list list);
 void insert_before(ptr_node target, ptr_node pos, ptr_list list);
 void delete_list(ptr_list list);
-ptr_list reverse(ptr_list list);
 
 // Leetcode
+ptr_list reverse(ptr_list list);
 ptr_node middle_node(ptr_node head);
+ptr_list reverse_between(int m, int n, ptr_list list);
