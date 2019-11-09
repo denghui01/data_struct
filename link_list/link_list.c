@@ -18,10 +18,9 @@ ptr_node make_node(data_t x)
     return node;
 }
 
-int is_empty(ptr_list list)
+int is_empty(ptr_node head)
 {
-    assert(list);    
-    return list->first == NULL;
+    return head == NULL;
 }
 
 // Don't use list head as input, instead, use the head node
@@ -50,10 +49,11 @@ void delete_list(ptr_list list)
     list->first = NULL; // empty it again!
 }
 
-ptr_node find_node(data_t x, ptr_list list)
+// Note: use ptr_node instead of ptr_list
+ptr_node find_node(data_t x, ptr_node head)
 {
-    assert(list);
-    ptr_node node = list->first;
+    if(head == NULL) return NULL;
+    ptr_node node = head;
     while(node && node->d != x)
     {
         node = node->next;
@@ -87,12 +87,10 @@ int delete_node(ptr_node target, ptr_list list)
     return EXIT_SUCCESS;
 }
 
-ptr_node list_tail(ptr_list list)
+ptr_node list_tail(ptr_node head)
 {
-    assert(list);
-    if(list->first == NULL) return NULL; // Empty
-
-    ptr_node node = list->first;
+    if(head == NULL) return NULL; // Empty
+    ptr_node node = head;
     while(node->next)
     {
         node = node->next;
@@ -103,13 +101,13 @@ ptr_node list_tail(ptr_list list)
 void append_node(ptr_node node, ptr_list list)
 {
     assert(list);
-    if(is_empty(list))
+    if(is_empty(list->first))
     {
         list->first = node;
     }    
     else
     {
-        ptr_node tail = list_tail(list);
+        ptr_node tail = list_tail(list->first);
         if(tail)
         {
             tail->next = node;
@@ -144,39 +142,31 @@ void insert_before(ptr_node target, ptr_node pos, ptr_list list)
     }    
 }
 
-/*
-void reverse1(ptr_head head)
+ptr_list reverse(ptr_list list)
 {
-    assert(head);
-    if(head->next == NULL) return; // Empty
+    assert(list);
+    ptr_node head, new_head, temp;
+    head = temp = list->first;
+    new_head = NULL;
 
-    ptr_node a = head->next;
-
-    while(a)
+    while(head)
     {
-        if(a->next == NULL) return; // One node
-
-        ptr_node b = a->next;
-        if(b->next == NULL)
-        {
-            head->next = b;
-            b->next = a;
-            a->next = NULL;
-        }
-
-        ptr_node c = b->next;
-
+        temp = head;
+        head = head->next;
+        temp->next = new_head;
+        new_head = temp;
     }
+    list->first = new_head;
+    return list;
 }
-*/
 
 // Leetcode questions
 // 876. Middle of the Linked List
-ptr_node middle_node(ptr_list list)
+ptr_node middle_node(ptr_node head)
 {
-    assert(list);
-    ptr_node one_step = list->first;
-    if(one_step == NULL) return one_step; // Empty
+    ptr_node one_step = head;
+    if(one_step == NULL) return NULL; // Empty
+    
     ptr_node two_step = one_step->next;
     while(two_step)
     {

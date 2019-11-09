@@ -18,7 +18,7 @@ int main()
     // Test:
     // find_node, insert_before
     // delete_node, delete_list
-    ptr_node node = find_node(0, list);
+    ptr_node node = find_node(0, list->first);
     ptr_node a = make_node(11);
     if(node)
     {
@@ -26,13 +26,28 @@ int main()
     }
     print_list(list->first);
 
-    node = find_node(10, list);
+    node = find_node(10, list->first);
     if(node == NULL)
     {
         printf("Can't find 10 in the list\n");
     }
-    delete_node(find_node(1, list), list);
+    delete_node(find_node(1, list->first), list);
     print_list(list->first);
+
+    for (int i = 0; i < 3; ++i)
+    {
+        ptr_node node = make_node(i);   
+        append_node(node, list);
+    }
+    print_list(list->first);  
+
+    // Test delete the second node with the specific data
+    delete_node(find_node(2, find_node(2, list->first)->next), list);
+    print_list(list->first);
+
+    // Test reverse
+    print_list(reverse(list)->first);
+
     delete_list(list);
 
     // Test leetcode: middleNode
@@ -52,5 +67,8 @@ int main()
     print_list(list->first);
     print_list(middle_node(list)); //[1,2,3]
     
+    delete_list(list);
+    free(list);
+
     return EXIT_SUCCESS;
 }
