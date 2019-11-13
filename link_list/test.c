@@ -72,7 +72,8 @@ int main()
     print_list(middle_node(list->first)); //[5,6,7,8]
     
     ////92. Reverse Linked List II
-    print_list(reverse_between(2, 4, list)->first);
+    //print_list(reverse_between(3, 4, list)->first);
+    print_list(reverseBetween(list->first, 3, 4));
 
     delete_list(list);
     free(list);

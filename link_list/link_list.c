@@ -35,6 +35,18 @@ void print_list(ptr_node head)
     printf("NULL\n");
 }
 
+int list_len(ptr_node head)
+{
+    int len = 0;
+    ptr_node node = head;
+    while(node)
+    {
+        len++;
+        node = node->next;
+    }
+    return len;    
+}
+
 // delete whole list
 void delete_list(ptr_list list)
 {
@@ -147,13 +159,13 @@ void insert_before(ptr_node target, ptr_node pos, ptr_list list)
 ptr_list reverse(ptr_list list)
 {
     assert(list);
-    ptr_node head, new_head, temp;
-    head = temp = list->first;
+    ptr_node head, new_head;
+    head = list->first;
     new_head = NULL;
 
     while(head)
     {
-        temp = head;
+        ptr_node temp = head;
         head = head->next;
         temp->next = new_head;
         new_head = temp;
@@ -181,46 +193,124 @@ ptr_node middle_node(ptr_node head)
 }
 
 //92. Reverse Linked List II
+// m, n should be 1-based
 ptr_list reverse_between(int m, int n, ptr_list list)
 {
     assert(list);
-    ptr_node head, new_head, temp, node1, node2, node3, node4;
-    head = list->first;
-    new_head = NULL;
+    assert(m > 0 && n > 0); 
+    assert(m <= list_len(list->first));
+    assert(n <= list_len(list->first));
+    assert(n >= m);
+    if(m == n) return list; 
+
+    ptr_node head = list->first;
+    ptr_node new_head = NULL;
+    ptr_node tail1 = NULL;
+    ptr_node tail2 = head;
 
     while(head)
     {
-        if(m != 0)
+        if(--m > 0)
         {
-            --m;
-            --n;
-            node1 = head;
-            node2 = head->next;
+            tail1 = head;
+            new_head = head;
             head = head->next;
+            tail2 = head;
+            --n;
         }
         else // start to reverse
         {
-            if(n != 0)
+            if(--n >= 0)
             {
-                --n;
-                node3 = head;
-                node4 = head->next;
-                temp = head;
+                ptr_node temp = head;
                 head = head->next;
                 temp->next = new_head;
                 new_head = temp;
-
             }
             else // finished
             {
-                node2->next = node4;
-                node1->next = node3;
-                new_head = head;
-                head = head->next;
+                break;
             }            
         }        
     }
-    list->first = new_head;
+
+    if(tail1)
+    {
+        tail1->next = new_head;
+    }
+    else
+    {
+        list->first = new_head;
+    }
+    tail2->next = head;
     return list;
 }
 
+// Another version for the web site of leetcode
+//typedef struct ListNode *ptr_node;
+ptr_node reverseBetween(ptr_node head, int m, int n)
+{    
+    assert(m > 0 && n > 0); 
+    assert(n >= m);
+    if(m == n) return head; 
+
+    ptr_node new_head = NULL;
+    ptr_node tail1 = NULL;
+    ptr_node tail2 = head;
+    ptr_node old_head = head;
+    while(head)
+    {
+        if(--m > 0)
+        {
+            tail1 = head;
+            new_head = head;
+            head = head->next;
+            tail2 = head;
+            --n;
+        }
+        else // start to reverse
+        {
+            if(--n >= 0)
+            {
+                ptr_node temp = head;
+                head = head->next;
+                temp->next = new_head;
+                new_head = temp;
+            }
+            else // finished
+            {
+                break;
+            }            
+        }        
+    }
+    
+    tail2->next = head;
+    if(tail1)
+    {
+        tail1->next = new_head;
+        return old_head;
+    }
+    else
+    {
+        return new_head;
+    }
+}
+
+/*
+//21. Merge Two Sorted Lists
+ptr_node mergeTwoLists(ptr_node l1, ptr_node l2)
+{
+    ptr_node head = l1->d <= l2->d ? l1 : l2;
+
+    while(l1)
+    {
+        while(l2)
+        {
+            while(l2->d <= l1->d)
+            {
+                l2 = l2->next;
+            }
+
+        }
+    }
+}*/
