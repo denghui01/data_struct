@@ -296,21 +296,43 @@ ptr_node reverseBetween(ptr_node head, int m, int n)
     }
 }
 
-/*
 //21. Merge Two Sorted Lists
 ptr_node mergeTwoLists(ptr_node l1, ptr_node l2)
 {
-    ptr_node head = l1->d <= l2->d ? l1 : l2;
-
-    while(l1)
+    ptr_node head1, head2, head;
+    if(!l1) return l2;
+    if(!l2) return l1;    
+    if(l2->d >= l1->d)
     {
-        while(l2)
+        head1 = l1;
+        head = l1;
+        head2 = l2;        
+    }
+    else
+    {
+        head1 = l2;
+        head = l2;
+        head2 = l1;
+    }
+    ptr_node tail = head1;
+    while(head1 && head2)
+    {
+        while(head1 && head2->d >= head1->d)
         {
-            while(l2->d <= l1->d)
-            {
-                l2 = l2->next;
-            }
+            tail = head1;
+            head1 = head1->next;
+        }
+        tail->next = head2;
 
+        if(head1)
+        {
+            while(head2 && head2->d < head1->d)
+            {
+                tail = head2;
+                head2 = head2->next;
+            }
+            tail->next = head1;
         }
     }
-}*/
+    return head;
+}

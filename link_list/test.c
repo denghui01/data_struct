@@ -71,12 +71,30 @@ int main()
     print_list(list->first);
     print_list(middle_node(list->first)); //[5,6,7,8]
     
-    ////92. Reverse Linked List II
+    // 92. Reverse Linked List II
     //print_list(reverse_between(3, 4, list)->first);
     print_list(reverseBetween(list->first, 3, 4));
 
     delete_list(list);
     free(list);
+
+    //21. Merge Two Sorted Lists
+    ptr_list list1 = make_empty();
+    ptr_list list2 = make_empty();
+    append_node(make_node(1), list1);
+    append_node(make_node(2), list1);
+    append_node(make_node(4), list1);
+
+    append_node(make_node(1), list2);
+    append_node(make_node(3), list2);
+    append_node(make_node(4), list2);    
+/*    
+    append_node(make_node(5), list2);
+    append_node(make_node(6), list2);
+    append_node(make_node(8), list2);    
+*/
+
+    print_list(mergeTwoLists(list1->first, list2->first));
 
     return EXIT_SUCCESS;
 }

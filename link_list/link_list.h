@@ -29,4 +29,4 @@ ptr_list reverse(ptr_list list);
 ptr_node middle_node(ptr_node head);
 ptr_list reverse_between(int m, int n, ptr_list list);
 ptr_node reverseBetween(ptr_node head, int m, int n);
-//ptr_node mergeTwoLists(ptr_node l1, ptr_node l2);
+ptr_node mergeTwoLists(ptr_node l1, ptr_node l2);
