@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdbool.h>
 #include "link_list.h"
 
 ptr_list make_empty()
@@ -335,4 +336,51 @@ ptr_node mergeTwoLists(ptr_node l1, ptr_node l2)
         }
     }
     return head;
+}
+
+//83. Remove Duplicates from Sorted List
+ptr_node deleteDuplicates(ptr_node head)
+{
+    if(!head) return head;
+
+    ptr_node node1, node2;
+    node1 = head;
+    node2 = head;
+    while(node1)
+    {
+        while(node2 && node2->d == node1->d)
+        {
+            node2 = node2->next;
+        }
+        node1->next = node2;
+        node1 = node2;        
+    }
+    return head;
+}
+
+//82. Remove Duplicates from Sorted List II
+ptr_node deleteDuplicates2(ptr_node head)
+{
+    if(!head) return head;
+
+    ptr_node new_head, node1, node2;
+    new_head = NULL;
+    node1 = head;
+    node2 = head->next;
+    while(node1)
+    {
+        while(node2 && node2->d == node1->d)
+        {
+            node2 = node2->next;
+        }
+        node1->next = node2;
+        node1 = node2;        
+
+    }
+}
+
+
+bool hasCycle(struct ListNode *head) 
+{
+    
 }

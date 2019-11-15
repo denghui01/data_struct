@@ -88,13 +88,17 @@ int main()
     append_node(make_node(1), list2);
     append_node(make_node(3), list2);
     append_node(make_node(4), list2);    
-/*    
-    append_node(make_node(5), list2);
-    append_node(make_node(6), list2);
-    append_node(make_node(8), list2);    
-*/
-
     print_list(mergeTwoLists(list1->first, list2->first));
+
+    //83. Remove Duplicates from Sorted List
+    ptr_list list3 = make_empty();
+    append_node(make_node(1), list3);
+    append_node(make_node(2), list3);
+    append_node(make_node(2), list3);
+    append_node(make_node(2), list3);
+    append_node(make_node(3), list3);
+
+    print_list(deleteDuplicates(list3->first));
 
     return EXIT_SUCCESS;
 }
