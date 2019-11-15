@@ -378,9 +378,3 @@ ptr_node deleteDuplicates2(ptr_node head)
 
     }
 }
-
-
-bool hasCycle(struct ListNode *head) 
-{
-    
-}
