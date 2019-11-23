@@ -1,3 +1,5 @@
+#ifndef LINK_LIST_H
+#define LINK_LIST_H
 typedef int data_t;
 typedef struct ListNode
 {
@@ -14,5 +16,5 @@ ptr_node find_node(data_t x, ptr_node head);
 ptr_node delete_node(ptr_node target, ptr_node head);
 ptr_node append_node(ptr_node target, ptr_node head);
 ptr_node insert_before(ptr_node target, ptr_node pos, ptr_node head);
-
+#endif
 
