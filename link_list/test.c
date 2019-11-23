@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "link_list.h"
 #include "sim_stack.h"
-
+#include "sim_queue.h"
 int main()
 {
     
