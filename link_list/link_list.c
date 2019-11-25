@@ -110,8 +110,11 @@ ptr_node append_node(ptr_node node, ptr_node head)
 ptr_node insert_before(ptr_node target, ptr_node pos, ptr_node head)
 {
     assert(target);
-    assert(pos);
-    assert(head);
+    if(!head)
+    {
+        return target;
+    }
+
     ptr_node new_head = head;
     if(pos == head)
     {

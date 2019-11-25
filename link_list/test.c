@@ -36,5 +36,30 @@ int main()
     }
     delete_list(list1);
 
+    // Test stack_push, stack_pop, stack_top
+    ptr_node stack1 = NULL;
+    stack1 = stack_push(make_node(1), stack1);
+    stack1 = stack_push(make_node(2), stack1);
+    stack1 = stack_push(make_node(3), stack1);
+    stack1 = stack_push(make_node(4), stack1);        
+    while(stack_top(stack1))
+    {
+        printf("%d ", stack_top(stack1)->val);
+        stack1 = stack_pop(stack1);
+    }
+    printf("\n");
+
+    // Test queue_push, queue_pop, queue_front, queue_back
+    ptr_node queue1 = NULL;
+    queue1 = queue_push(make_node(1), queue1);
+    queue1 = queue_push(make_node(2), queue1);
+    queue1 = queue_push(make_node(3), queue1);
+    queue1 = queue_push(make_node(4), queue1); 
+    while(queue_front(queue1))
+    {
+        printf("%d ", queue_front(queue1)->val);
+        queue1 = queue_pop(queue1);
+    }           
+    printf("\n");
     return EXIT_SUCCESS;
 }
