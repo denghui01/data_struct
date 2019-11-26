@@ -7,8 +7,11 @@
 ptr_node make_node(data_t x)
 {
     ptr_node node = malloc(sizeof(ListNode));
-    node->val = x;
-    node->next = NULL;
+    if(node != NULL)
+    {
+        node->val = x;
+        node->next = NULL;
+    }
     return node;
 }
 
